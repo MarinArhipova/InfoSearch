@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.itis.service.DownloadService;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
@@ -14,7 +15,7 @@ import java.net.MalformedURLException;
 public class DownloadServiceImpl implements DownloadService {
 
     public static int count = 0;
-    private File fileIndexTxt = new File("index.txt");
+    private String fileIndexTxt = "index.txt";
 
     @Override
     public void downloadPage(String url) {
@@ -24,10 +25,12 @@ public class DownloadServiceImpl implements DownloadService {
                     .userAgent("Chrome/4.0.249.0 Safari/532.5")
                     .referrer("http://www.google.com")
                     .get();
-            File file = new File("downloads/downloadedHtml-" + count + ".html");
+            File file = new File("downloads/page/downloadedHtml-" + count + ".html");
             FileUtils.writeStringToFile(file, doc.outerHtml());
 
-            FileUtils.writeStringToFile(fileIndexTxt, count + ". " + url + "/n");
+            FileWriter fw = new FileWriter(fileIndexTxt, true);
+            fw.write(count + ". " + url + "\n"); //appends the string to the file
+            fw.close();
         } catch (MalformedURLException e) {
             System.out.println("BAD LINK!");
         } catch (IOException e) {

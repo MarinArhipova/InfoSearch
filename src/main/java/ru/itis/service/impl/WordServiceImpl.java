@@ -35,7 +35,7 @@ public class WordServiceImpl implements WordService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger.info("Counted words for url {}", url);
+        logger.info("Url: {}", url);
         return words;
     }
 
